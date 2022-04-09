@@ -1,0 +1,95 @@
+﻿@page "/students"
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+@inject IStudentsService istudentService
+<h1>Students</h1>
+<button @onclick="CreateStudent" class="CreateButton">Create Student</button>
+<br>
+<br>
+
+@if (students.Count == 0)
+{
+    <center><p1 class="NoStudents">!THERE ARE NO STUDENTS!</p1></center>
+}
+else
+{
+    <center>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>AVATAR</th>
+                    <th class="FirstName" @onclick=@(()=>SortTable("FirstName"))>FIRST NAME</th>
+                    <th class="LastName" @onclick=@(()=>SortTable("LastName"))>LAST NAME</th>
+                    <th class="BirtDate" @onclick=@(()=>SortTable("BirthDate"))>BIRTH DATE</th>
+                    <th class="Studies" @onclick=@(()=>SortTable("Studies"))>STUDIES</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in studentsPage)
+                {
+                    <StudentComponent Student="student" OnDeleteClicked="DeleteStudent" />
+                }
+            </tbody>
+        </table>
+    </center>
+    <br>
+    <br>
+    @for (int i = 0; i < (double)students.Count / MAX_STUDENTS_ON_PAGE; i++)
+    {
+        int pageNumber = i + 1;
+        <button @onclick="(()=>HandleChangePage(pageNumber))">@("page "+pageNumber)</button>
+    }
+
+}
+@code {
+
+    public List<Student> students { get; set; }
+
+    public List<Student> studentsPage { get; set; }
+
+    private string reverseColName;
+
+    private int MAX_STUDENTS_ON_PAGE = 10;
+
+    protected override void OnInitialized()
+    {
+        students = istudentService.StudentsList;
+        studentsPage = students.Take(MAX_STUDENTS_ON_PAGE).ToList();
+    }
+
+    private void CreateStudent()
+    {
+        Console.WriteLine("Clicked..." + navigationManager.Uri);
+        navigationManager.NavigateTo("/students/addNewStudent");
+    }
+
+    private async Task DeleteStudent(Student student)
+    {
+        var confirmed = await js.InvokeAsync<bool>("confirm", "Are you sure?");
+        if (confirmed)
+        {
+            studentsPage.Remove(student);
+            students.Remove(student);
+        }
+        Console.WriteLine($"Student has been deleted: {student.FirstName} {student.LastName}");
+    }
+
+    private void SortTable(string columnName)
+    {
+        if (reverseColName == columnName)
+        {
+            studentsPage.Reverse();
+        }
+        else
+        {
+            studentsPage = studentsPage.OrderBy(s => typeof(Student).GetProperty(columnName).GetValue(s)).ToList();
+            reverseColName = columnName;
+        }
+    }
+
+    public void HandleChangePage(int page)
+    {
+        studentsPage = students.Skip((page - 1) * MAX_STUDENTS_ON_PAGE).Take(MAX_STUDENTS_ON_PAGE).ToList();
+    }
+
+}

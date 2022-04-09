@@ -1,0 +1,17 @@
+﻿<tr>
+    <td><img src=@Student.Avatar/></td>
+    <td> @Student.FirstName</td>
+    <td> @Student.LastName</td>
+    <td> @Student.BirthDate.ToShortDateString()</td>
+    <td> @Student.Studies</td>
+    <td class="DeleteButton" ><button  @onclick="@(()=>OnDeleteClicked.InvokeAsync(Student))">X</button></td>
+</tr>
+
+@code {
+
+    [Parameter]
+    public Student Student { get; set; }
+
+    [Parameter]
+    public EventCallback<Student> OnDeleteClicked { get; set; }
+}

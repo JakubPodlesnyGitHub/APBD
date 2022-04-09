@@ -1,0 +1,10 @@
+﻿button {
+    background-color: red;
+    border-radius: 35px;
+    font-size: 30px;
+}
+td.DeleteButton{
+    border-top:hidden;
+    border-bottom:hidden;
+    border-right:hidden;
+}

@@ -1,0 +1,45 @@
+﻿@page "/students/addNewStudent"
+@inject NavigationManager navigationManager
+@inject IStudentsService istudentService
+
+<h1>Student's Details</h1>
+<center>
+    <EditForm Model="NewStudent" OnSubmit="AddedNewStudent">
+        <label>FIRST NAME</label>
+        <InputText class="FN" @bind-Value="@NewStudent.FirstName" />
+        <br /> <br />
+        <label>LAST NAME</label>
+        <InputText class="LN" @bind-Value="@NewStudent.LastName" />
+        <br /> <br />
+        <label>BIRTH DATE</label>
+        <InputDate class="BD"  @bind-Value="@NewStudent.BirthDate" />
+        <br /> <br />
+        <label>Studies</label>
+        <InputText class="ST" @bind-Value="@NewStudent.Studies" />
+        <br /> <br />
+        <label>Avatar Link</label>
+        <InputText class="AL" @bind-Value="@NewStudent.Avatar" />
+        <br /> <br />
+        <button type="submit">Create</button>
+    </EditForm>
+</center>
+@code{
+
+    [Parameter]
+    public Student NewStudent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        NewStudent = new Student();
+    }
+
+    private void AddedNewStudent()
+    {
+        istudentService.StudentsList.Add(NewStudent);
+        Console.WriteLine("Clicked..." + navigationManager.Uri);
+        navigationManager.NavigateTo("/students");
+    }
+
+}

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>First_BlazorApp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\TaskPages\AddNewStudent.razor.css" />
+    <None Remove="Pages\TaskPages\Students.razor.css" />
+    <None Remove="Shared\StudentComponent.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\TaskPages\AddNewStudent.razor.css" />
+    <Content Include="Pages\TaskPages\Students.razor.css" />
+    <Content Include="Shared\StudentComponent.razor.css" />
+  </ItemGroup>
+
+</Project>

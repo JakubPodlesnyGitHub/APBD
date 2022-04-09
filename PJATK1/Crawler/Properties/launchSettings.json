@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Crawler": {
+      "commandName": "Project",
+      "commandLineArgs": "https://www.pja.edu.pl/component/k2/wazne-kontakty"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FileWriterProject": {
+      "commandName": "Project",
+      "commandLineArgs": ".\\Data\\dane.csv .\\Data\\odpJson.txt Json"
+    }
+  }
+}
